@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env", override=True)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY", "")
 
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1')
 
@@ -49,7 +50,7 @@ ROOT_URLCONF = 'newsaggregator.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,14 +99,10 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-VENV_PATH = os.path.dirname(BASE_DIR)
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
