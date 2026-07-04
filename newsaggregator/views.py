@@ -9,7 +9,6 @@ def index(request):
 def _render_category(request, category: str):
     try:
         articles = get_category_articles(category=category, country="us")
-        print(f"[news] category={category} count={len(articles)}")  # temporary debug
     except Exception as e:
         return render(
             request,
