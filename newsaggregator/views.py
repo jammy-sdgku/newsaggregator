@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .api import get_category_articles
+from .api import get_category_articles, get_german_articles
 
 
 def index(request):
@@ -62,3 +62,33 @@ def entertainment(request):
 
 def sports(request):
     return _render_category(request, "sports")
+
+
+def germany(request):
+    try:
+        articles = get_german_articles("general")
+    except Exception as e:
+        return render(
+            request,
+            "news.html",
+            {"articles": [], "error": f"{type(e).__name__}: {e}", "category": "german"},
+        )
+
+    normalized = []
+    for a in articles:
+        normalized.append(
+            {
+                "title": a.get("title") or "Untitled",
+                "description": a.get("description") or "No description available.",
+                "image": a.get("urlToImage") or "",
+                "url": a.get("url") or "#",
+                "author": a.get("author") or "Unknown",
+                "published_at": a.get("publishedAt") or "",
+            }
+        )
+
+    return render(
+        request,
+        "news.html",
+        {"articles": normalized, "error": "", "category": "german"},
+    )
