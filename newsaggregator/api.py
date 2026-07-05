@@ -18,15 +18,17 @@ def get_category_articles(category: str, country: str = "us") -> list[dict]:
     client = get_news_client()
     try:
         response = client.get_top_headlines(category=category, country=country)
+        print("US response:", response)
     except NewsAPIException as e:
         raise RuntimeError(f"NewsAPI error: {e}") from e
     return response.get("articles", [])
 
 
-def get_german_articles(category: str = "general") -> list[dict]:
+def get_german_articles(category: str = "general", country: str = "de") -> list[dict]:
     client = get_news_client()
     try:
-        response = client.get_top_headlines(category=category, country="de")
+        response = client.get_everything(q=category, language="de")
+        print("DE response:", response)
     except NewsAPIException as e:
         raise RuntimeError(f"NewsAPI error: {e}") from e
     return response.get("articles", [])
